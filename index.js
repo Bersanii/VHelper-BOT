@@ -1,6 +1,6 @@
 const Discord = require("discord.js")
 
-const TOKEN = "OTMwOTQwMzU3NzU4MzAwMjcw.Yd9LxQ.9VUguDt3q7SluYFe_w9kyUcMcuU"
+const TOKEN = ""
 const prefix = "-"
 const fs = require("fs")
 
@@ -28,15 +28,13 @@ client.on("messageCreate", (message) => {
         return
 
     const args = message.content.slice(prefix.length).split(/ +/)
-    //const params = message.content.slice(args.length + 2).split(' ')
     const params = message.content.split('/')[1]
     const command = args.shift().toLowerCase()
     
-    const teste = params.split('?')
-    teste.forEach(element => {
-        console.log(element)
-    });
-    
+    // const teste = params.split('?')
+    // teste.forEach(element => {
+    //     console.log(element)
+    // });
 
     console.log('message => ' + message.content)
     console.log('command => ' + command)
@@ -49,10 +47,17 @@ client.on("messageCreate", (message) => {
             client.commands.get('ping').execute(message, args)
             break;
     
+        case 'emb':
+            client.commands.get('emb').execute(message, params, args)
+            break;
         default:
             break;
     }
-        
+
+    
+    //const selectedChannel = client.channels.cache.find(channel => channel.name === 'drift')
+    //message.selectedChannel.send('oi')
+    //console.log(client.channels.cache)
 })
 
 client.login(TOKEN)
