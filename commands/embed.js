@@ -1,28 +1,82 @@
+const { Discord } = require("discord.js")
+
 module.exports = {
     name: 'emb',
     description: 'Generates a embeded messsage',
     execute(message, params, args){
         
         if(!params){
-            message.channel.send('To create a embed use: ```-emb / Tipo?Titulo?LinkDoPost?LinkDireto?UrlDaImagem```')
-            
+            message.channel.send('To create a embed use: ```-emb --params:Tipo??Titulo??LinkDoPost??LinkDireto??UrlDaImagem```')
+            message.channel.send('Tipos:')
+            message.channel.send('```ASSETTO CORSA\n    Carros: acCar\n    Pistas: acTrack```')
+            message.channel.send('```AMERICAN TRUCK SIMULATOR\n    Mapas: atsMap```')
             return
         }
 
         //Tipo, Titulo, Link post, Link direto, URL da imagem
-        const paramsArr = params.split('?')
+        const paramsArr = params.split('??')
 
+
+        //Define variaveis de acordo com o tipo selecionado pelo user
+        let cor = ''
+        let idCanal = ''
+        switch (paramsArr[0]) {
+            case 'acCar':
+                cor = '0xff6b6b'
+                idCanal = '931173509558861864'
+                break;
+
+            case 'acTrack':
+                cor = '0xff6136'
+                idCanal = '931173530719117352'
+                break;
+
+            case 'atsMap':
+                cor = '0x4fff75'
+                idCanal = '931221797767090186'
+                break;
+        
+            default:
+                break;
+        }
+        
         const embData = {
-            nome: paramsArr[0],
-            color: '0xff6136',
-            linkPost: paramsArr[1],
-            linkDireto: paramsArr[2],
-            imagemUrl: paramsArr[3]
+            nome: paramsArr[1],
+            cor: cor,
+            canalDefinido: idCanal,
+            linkPost: paramsArr[2],
+            linkDireto: paramsArr[3],
+            imagemUrl: paramsArr[4]
         }
 
-        console.log('-------- embData --------')
-        console.log(embData)
-        console.log('-------------------------')
+        message.client.channels.cache.get(embData.canalDefinido).send({
+            "embeds": [
+                {
+                "type": "rich",
+                "title": embData.nome,
+                "description": "",
+                "color": embData.cor,
+                "fields": [
+                    {
+                    "name": `» Link Direto`,
+                    "value": embData.linkDireto
+                    },
+                    {
+                    "name": `» Link do post`,
+                    "value": embData.linkPost
+                    }
+                ],
+                "image": {
+                    "url": embData.imagemUrl,
+                    "height": 0,
+                    "width": 0
+                }
+                }
+            ]
+        })
+
+        message.reply('Embed criado')
+
     }
 }
 

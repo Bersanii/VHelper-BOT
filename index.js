@@ -28,7 +28,7 @@ client.on("messageCreate", (message) => {
         return
 
     const args = message.content.slice(prefix.length).split(/ +/)
-    const params = message.content.split('/')[1]
+    const params = message.content.split('--params:')[1]
     const command = args.shift().toLowerCase()
     
     // const teste = params.split('?')
